@@ -99,12 +99,12 @@ workflows:
             requires: [print-workflow-id]
             filters:
               branches:
-                only: [buff]
+                only: [main]
       - lint-Dockerfile:
             requires: [print-workflow-id]
             filters:
               branches:
-                only: [buff]
+                only: [main]
       - test-app:
             #requires: [lint-Python, lint-Dockerfile]
             filters:
