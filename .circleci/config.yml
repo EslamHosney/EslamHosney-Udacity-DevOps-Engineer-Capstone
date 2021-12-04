@@ -131,6 +131,8 @@ jobs:
           name: build image
           command: |
             . venv/bin/activate
+            sudo apt-get update
+            sudo apt-get install docker-ce docker-ce-cli containerd.io
             docker build --tag=eslamhosney/udacity_devops_engineer_capstone:latest .
             echo DockerHubUser=$DockerHubUser
             #docker push eslamhosney/udacity_devops_engineer_capstone:latest
