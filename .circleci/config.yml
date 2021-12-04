@@ -88,7 +88,7 @@ jobs:
           name: run app.py
           command: |
             . venv/bin/activate
-            sudo nohup python app.py > log.txt 2>&1 &
+            pytest test_api.py
 
 
 workflows:
