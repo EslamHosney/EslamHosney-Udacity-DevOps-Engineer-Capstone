@@ -106,7 +106,7 @@ workflows:
               branches:
                 only: [main]
       - test-app:
-            #requires: [lint-Python, lint-Dockerfile]
+            requires: [lint-Python, lint-Dockerfile]
             filters:
               branches:
                 only: [main]
