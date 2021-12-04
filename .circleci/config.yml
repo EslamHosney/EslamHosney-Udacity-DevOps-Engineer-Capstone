@@ -42,12 +42,42 @@ jobs:
           command: |
             . venv/bin/activate
             pylint --disable=R,C,W1203,W1202 app.py
+            
+  lint-Dockerfile:
+    docker:
+      - image: python:3.7.3-stretch
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            #install hadolint
+            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
+            chmod +x /bin/hadolint
+        
+      # run lints!
+      - run:
+          name: run lint
+          command: |
+            . venv/bin/activate
+            hadolint Dockerfile
 
 workflows:
   print-workflow-workflow:
     jobs:
       - print-workflow-id
       - lint-Python:
+            requires: [print-workflow-id]
+            filters:
+              branches:
+                only: [main]
+      - lint-Dockerfile:
             requires: [print-workflow-id]
             filters:
               branches:
