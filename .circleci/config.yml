@@ -152,7 +152,13 @@ workflows:
               branches:
                 only: [main]
       - security-app:
-            #requires: [lint-Python, lint-Dockerfile]
+            #requires: [test-app]
+            filters:
+              branches:
+                only: [main]  
+                
+      - deploy-infrastructure:
+            #requires: [security-app]
             filters:
               branches:
                 only: [main]  
