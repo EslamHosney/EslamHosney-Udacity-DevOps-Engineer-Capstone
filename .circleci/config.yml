@@ -192,12 +192,9 @@ jobs:
             
 
 workflows:
-  print-workflow-workflow:
+  default:
     jobs:
       - print-workflow-id
-            filters:
-              branches:
-                only: [buff2]
       - lint-Python:
             requires: [print-workflow-id]
             filters:
