@@ -22,37 +22,13 @@
     apt:
       autoremove: yes
 
-  - name: "install nodejs and npm"
-    become: yes
-    apt:
-      name: ["nodejs", "npm"]
-      state: latest
-      update_cache: yes
-
-  - name: "install n"
-    become: yes
-    npm:
-      name: n
-      global: yes
-      production: yes
-
-
-  - name: "install pm2"
-    become: yes
-    npm:
-      name: pm2
-      global: yes
-      production: yes
-      state: present
-    
     
   - name: "Print EFO"
     shell: |
-        #cd /home/ubuntu/backend
         echo End of file
-        register: print_result
+        register: print_result2
 
   #show the output on the user/us Cli
   - name: print message
     debug:
-      msg: "{{ print_result.stdout_lines }}"
+      msg: "{{ print_result2.stdout_lines }}"
