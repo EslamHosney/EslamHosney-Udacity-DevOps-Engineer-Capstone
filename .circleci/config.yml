@@ -157,7 +157,7 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
-      # Add ssh keys with fingerprint
+      # Add ssh keys with fingerprint again
       - add_ssh_keys:
           fingerprints:
               - "50:eb:03:41:d3:d8:1b:c8:3f:c4:c6:b5:2b:e2:23:8b"
