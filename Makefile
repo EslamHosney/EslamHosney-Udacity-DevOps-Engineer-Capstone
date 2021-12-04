@@ -14,6 +14,13 @@ install:
 	# This should be run from inside a virtualenv
 	pip install --upgrade pip &&\
 		pip install -r requirements.txt
+	#install Hdolint
+	sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
+	sudo chmod +x /bin/hadolint
+	#install minikube
+	
+	#install Kubectl
+	
 
 test:
 	# Additional, optional, tests could go here
@@ -28,4 +35,4 @@ lint:
 	# This should be run from inside a virtualenv
 	pylint --disable=R,C,W1203,W1202 app.py
 
-all: install lint test
+all: setup install lint test
