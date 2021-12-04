@@ -239,12 +239,12 @@ workflows:
             filters:
               branches:
                 only: [main]  
-        - build-docker:
-            requires: [test-app]
+      - build-image:
+            #requires: [test-app]
             filters:
               branches:
-                only: [main]  
-                
+                only: [main] 
+              
       - deploy-infrastructure:
             #requires: [security-app]
             filters:
