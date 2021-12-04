@@ -74,14 +74,14 @@ jobs:
             make lint
             
   workflows:
-  default:
-    jobs:
-      - lint-python:
-          filters:
-            branches:
-              only: [main]
-      - default-build:
-          requires: [lint-python]
-          filters:
-            branches:
-              only: [main]
+    default:
+      jobs:
+        - lint-python:
+            filters:
+              branches:
+                only: [main]
+        - default-build:
+            requires: [lint-python]
+            filters:
+              branches:
+                only: [main]
