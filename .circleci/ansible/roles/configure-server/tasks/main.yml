@@ -1,5 +1,4 @@
   - name: Print IP Address
-    shell:  "pwd"
     shell:  echo Eslam Samy Hosney
     register: print_result
 
