@@ -195,11 +195,14 @@ workflows:
   print-workflow-workflow:
     jobs:
       - print-workflow-id
+            filters:
+              branches:
+                only: [buff]
       - lint-Python:
             requires: [print-workflow-id]
             filters:
               branches:
-                only: [buff]
+                only: [main]
       - lint-Dockerfile:
             requires: [print-workflow-id]
             filters:

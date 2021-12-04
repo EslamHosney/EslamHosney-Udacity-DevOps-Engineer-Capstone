@@ -45,17 +45,13 @@
       global: yes
       production: yes
       state: present
-      
-- name: Install Node
-  shell: |
-    cd /home/ubuntu/backend
-    npm install
     
-- name: Build Node
-  shell: |
-    cd /home/ubuntu/backend
-    echo End of file
-    register: print_result
+    
+  - name: "Print EFO"
+    shell: |
+        #cd /home/ubuntu/backend
+        echo End of file
+        register: print_result
 
   #show the output on the user/us Cli
   - name: print message
