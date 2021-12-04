@@ -111,7 +111,31 @@ jobs:
           command: |
             . venv/bin/activate
             bandit app.py --skip B104,B201
-            
+#################################################
+
+  build-image:
+    docker:
+      # specify the version you desire here
+      - image: python:3.7.3-stretch
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      # run lints!
+      - run:
+          name: build image
+          command: |
+            . venv/bin/activate
+            docker build --tag=eslamhosney/udacity_devops_engineer_capstone:latest .
+            echo DockerHubUser=$DockerHubUser
+            #docker push eslamhosney/udacity_devops_engineer_capstone:latest
+
+#################################################          
   deploy-infrastructure:
     docker:
       # Docker image here that supports AWS CLI
@@ -215,15 +239,20 @@ workflows:
             filters:
               branches:
                 only: [main]  
+        - build-docker:
+            requires: [test-app]
+            filters:
+              branches:
+                only: [main]  
                 
       - deploy-infrastructure:
             #requires: [security-app]
             filters:
               branches:
-                only: [main]  
+                only: [buff]  
                 
       - configure-infrastructure:
             requires: [deploy-infrastructure]
             filters:
               branches:
-                only: [main]                
+                only: [buff]                
