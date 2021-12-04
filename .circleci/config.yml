@@ -49,7 +49,7 @@ workflows:
   print-workflow-workflow:
     jobs:
       - print-workflow-id
-      - lintPython
+      - lintPython:
             requires: [print-workflow-id]
             filters:
               branches:
