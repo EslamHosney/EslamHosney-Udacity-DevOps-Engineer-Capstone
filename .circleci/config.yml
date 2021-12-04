@@ -241,7 +241,7 @@ workflows:
               branches:
                 only: [main]  
       - build-image:
-            requires: [test-app]
+            requires: [security-app]
             filters:
               branches:
                 only: [main] 
