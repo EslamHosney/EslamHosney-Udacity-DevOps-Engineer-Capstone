@@ -1,5 +1,35 @@
-# EslamHosney-Udacity-DevOps-Engineer-Capstone
-# Test Cloud9
+## EslamHosney-Udacity-DevOps-Engineer-Capstone
 
 # CircleCI
 [![CircleCI](https://circleci.com/gh/EslamHosney/Udacity-DevOps-Engineer-Capstone/tree/main.svg?style=svg)](https://circleci.com/gh/EslamHosney/Udacity-DevOps-Engineer-Capstone/tree/main)
+
+# Abstract
+This simple python code is used to illustrate the main ideas for DevOps and cloud native applicaitons.
+I used CircleCI for my pipeline which follow the below steps (all screenshots could be found in Udacity-DevOps-Engineer-Capstone SC.pdf)
+
+# Lint code
+the first step of the pipeline is to check the code syntax which is done by pylint
+
+# Lint Docker
+Then check the docker file for any typos by hadolint
+
+# Test App
+The i used pytest to test the flask app I am running
+
+# Security test
+Used bandit to scan my python code for vulnerabilities
+
+# Build image
+After all the tests are complete i used CircleCI to build my container image and publish it to docker hub
+
+# Build Infra
+Using the cloudformation power I created the required server to run my application in prod
+
+# Configure Infra
+Using Ansible i confiured minikube and Kubectl to run my application inside a Kubernetes cluster
+
+# Smoke test
+Finalling I created an testing scenario to make sure the new infra is working fine before deleting teh old one
+
+# Clean up
+Automatically deleting the old infra to save cost
