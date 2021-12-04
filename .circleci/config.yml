@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  lint-python:
+  lintPython:
     docker:
       # specify the version you desire here
       - image: python:3.7.3-stretch
@@ -27,7 +27,7 @@ jobs:
             pylint --disable=R,C,W1203,W1202 app.py
       
       
-  default-build:
+  build:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
@@ -76,12 +76,12 @@ jobs:
   workflows:
     default:
       jobs:
-        - lint-python:
+        - lintPython:
             filters:
               branches:
                 only: [main]
-        - default-build:
-            requires: [lint-python]
+        - build:
+            requires: [lintPython]
             filters:
               branches:
                 only: [main]
