@@ -110,7 +110,7 @@ jobs:
           name: run app.py
           command: |
             . venv/bin/activate
-            bandit test_api.py
+            bandit app.py
 
 workflows:
   print-workflow-workflow:
