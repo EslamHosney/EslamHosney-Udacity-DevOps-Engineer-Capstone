@@ -2,7 +2,25 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+
 commands:
+  destroy-environment:
+    description: Destroy Udacity-DevOps-Engineer-Capstone cloudformation stacks given a workflow ID.
+    parameters:
+      # Add parameter here  
+      workflow_id:
+        type: string
+    steps:
+      - run:
+          name: Destroy environments
+          when: on_fail
+          command: |
+            echo "Destroying environment udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
+            #aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+            aws cloudformation delete-stack --stack-name back-end-${CIRCLE_WORKFLOW_ID:0:7}
+            #aws cloudformation delete-stack --stack-name front-end-${CIRCLE_WORKFLOW_ID:0:7}
+            #exit 1
+
   print_pipeline_id:
     description: "A very simple command to print workflow ID"
     parameters:
@@ -211,10 +229,83 @@ jobs:
             cat inventory.txt
             #cat configure-server.yml
       # Here's where you will add some code to rollback on failure  
+      
+  smoke-test:
+    docker:
+      # Lightweight Docker image 
+      - image: python:3.7-alpine3.11
+    steps:
+      # Checkout code from git
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+            apk add --update tar gzip ansible nodejs npm curl zip
+            pip install awscli
+      - run:
+          name: Backend smoke test
+          command: |
+            BACKEND_IP=$(aws ec2 describe-instances \
+              --query "Reservations[*].Instances[*].PublicIpAddress" \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --output=text)
+            export API_URL="http://${BACKEND_IP}:8000"
+            echo "${API_URL}"
+            if curl "${API_URL}/api/status" | grep "World"
+            then
+                return 0
+            else
+                return 1
+            fi
+      # Here's where you will add some code to rollback on failure  
+      - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}        
             
-            
-            
-            
+          
+  cleanup:
+      docker:
+        # Docker image here that supports AWS CLI
+        - image: amazon/aws-cli
+      steps:
+        # Checkout code from git
+        - checkout
+        - run:
+            name: Install dependencies
+            command: |
+              yum -y install tar gzip 
+        - attach_workspace:
+              at: ~/project
+        - run:
+            name: Get old stack workflow id
+            command: |
+              # your code here will get all stack names including the new one
+              export OldWorkflowID=$(aws cloudformation \
+                      list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+                      --no-paginate --output text)
+              echo OldWorkflowID: "${OldWorkflowID}"
+              #put the list of stacks here
+              export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+                      --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+              echo ${STACKS[@]}
+              for stack in ${STACKS[@]}; do
+                  if [[ $stack == *"${CIRCLE_WORKFLOW_ID:0:7}"* ]]
+                    then
+                      echo "New Stack Don't delete"
+                      echo "$stack"
+                    else
+                      if [[ "$stack" == *"-end-"* ]]; then
+                        echo "Old Stack to be deleted"
+                        echo "$stack"
+                        export OldWorkflowID=${stack##*-}
+                        echo $OldWorkflowID
+                        #aws cloudformation delete-stack --stack-name "back-end-${OldWorkflowID}"
+                        #aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+                        #aws cloudformation delete-stack --stack-name "front-end-${OldWorkflowID}"
+                      fi
+                  fi
+              done
+
 
 workflows:
   default:
