@@ -241,7 +241,7 @@ workflows:
               branches:
                 only: [main]  
       - build-image:
-            #requires: [test-app]
+            requires: [test-app]
             filters:
               branches:
                 only: [main] 
@@ -250,10 +250,10 @@ workflows:
             #requires: [security-app]
             filters:
               branches:
-                only: [buff]  
+                only: [main]  
                 
       - configure-infrastructure:
             requires: [deploy-infrastructure]
             filters:
               branches:
-                only: [buff]                
+                only: [main]                
