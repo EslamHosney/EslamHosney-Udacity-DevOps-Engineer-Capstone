@@ -26,9 +26,4 @@
   - name: "Print EFO"
     shell: |
         echo End of file
-        register: print_result2
 
-  #show the output on the user/us Cli
-  - name: print message
-    debug:
-      msg: "{{ print_result2.stdout_lines }}"
