@@ -148,6 +148,48 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
+            
+            
+ configure-infrastructure:
+    docker:
+      # Docker image here that supports Ansible
+      - image: python:3.7-alpine3.11
+    steps:
+      # Checkout code from git
+      - checkout
+      # Add ssh keys with fingerprint
+      - add_ssh_keys:
+          fingerprints:
+              - "50:eb:03:41:d3:d8:1b:c8:3f:c4:c6:b5:2b:e2:23:8b"
+      # attach workspace
+      - attach_workspace:
+            at: ~/project
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update tar gzip ansible nodejs npm curl
+            pip install awscli
+      - run:
+          name: Set up inventory file
+          command: |
+            cd .circleci/ansible
+            URLS=$(curl -H "token: a6799e5b-dcb5-45f6-b3f3-6cb9db85f3ac" --request GET https://api.memstash.io/values/backendip)
+            echo "$URLS" >> inventory.txt
+            cat inventory.txt
+      - run:
+          name: Configure server with ansible
+          no_output_timeout: 30m
+          command: |
+            echo "Start Ansible"
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml
+            cat inventory.txt
+            #cat configure-server.yml
+      # Here's where you will add some code to rollback on failure  
+            
+            
+            
+            
 
 workflows:
   print-workflow-workflow:
@@ -157,19 +199,19 @@ workflows:
             requires: [print-workflow-id]
             filters:
               branches:
-                only: [main]
+                only: [buff]
       - lint-Dockerfile:
             requires: [print-workflow-id]
             filters:
               branches:
                 only: [main]
       - test-app:
-            #requires: [lint-Python, lint-Dockerfile]
+            requires: [lint-Python, lint-Dockerfile]
             filters:
               branches:
                 only: [main]
       - security-app:
-            #requires: [test-app]
+            requires: [test-app]
             filters:
               branches:
                 only: [main]  
@@ -179,3 +221,10 @@ workflows:
             filters:
               branches:
                 only: [main]  
+                
+       - configure-infrastructure:
+            requires: [deploy-infrastructure]
+            filters:
+              branches:
+                only: [main]                
+                configure-infrastructure
