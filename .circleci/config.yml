@@ -131,6 +131,23 @@ jobs:
               --stack-name "back-end-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
               #exit 1
+      - run:
+          name: Add back-end ip to ansible inventory
+          command: |
+            # Your code here
+
+            backendip=$(aws ec2 describe-instances \
+              --query "Reservations[*].Instances[*].PublicIpAddress" \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --output=text)
+            echo $backendip >> .circleci/ansible/inventory.txt
+            curl -H "Content-Type: text/plain" -H "token: a6799e5b-dcb5-45f6-b3f3-6cb9db85f3ac" --request PUT --data $backendip https://api.memstash.io/values/backendip
+            cat .circleci/ansible/inventory.txt
+            # exit 1
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/.circleci/ansible/inventory.txt
 
 workflows:
   print-workflow-workflow:
