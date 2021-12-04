@@ -50,3 +50,7 @@ workflows:
     jobs:
       - print-workflow-id
       - lintPython
+            requires: [print-workflow-id]
+            filters:
+              branches:
+                only: [main]
