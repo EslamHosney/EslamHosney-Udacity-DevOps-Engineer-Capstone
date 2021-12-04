@@ -4,6 +4,34 @@
 #
 version: 2
 jobs:
+  lint-python:
+    docker:
+      # specify the version you desire here
+      - image: python:3.7.3-stretch
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+            #make install
+            
+      # run lints!
+      - run:
+          name: run lint
+          command: |
+            . venv/bin/activate
+            pylint --disable=R,C,W1203,W1202 app.py
+      
+      
+      
+      
+      
+      
+      
   build:
     docker:
       # specify the version you desire here
