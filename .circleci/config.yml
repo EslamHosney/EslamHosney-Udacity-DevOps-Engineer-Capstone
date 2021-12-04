@@ -222,7 +222,7 @@ workflows:
               branches:
                 only: [main]  
                 
-       - configure-infrastructure:
+      - configure-infrastructure:
             requires: [deploy-infrastructure]
             filters:
               branches:
