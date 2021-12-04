@@ -5,14 +5,14 @@
 # Step 1:
 # This is your Docker ID/path
 # dockerpath=<>
-dockerpath=eslamhosney/udacity_ml_proj_img
+dockerpath=eslamhosney/udacity_devops_engineer_capstone
 
 # Step 2
 # Run the Docker Hub container with kubernetes
-docker pull eslamhosney/udacity_ml_proj_img:latest
-kubectl run udacity-ml-proj-deploy\
-	    --image=eslamhosney/udacity_ml_proj_img\
-		--port=80 --labels app=udacity-ml-proj-deploy
+docker pull eslamhosney/udacity_devops_engineer_capstone:latest
+kubectl run udacity-devops-engineer-capstone-deploy\
+	    --image=eslamhosney/udacity_devops_engineer_capstone\
+		--port=80 --labels app=udacity-devops-engineer-capstone-deploy
 
 # Step 3:
 # List kubernetes pods
@@ -21,4 +21,4 @@ kubectl get pods
 # Step 4:
 # Forward the container port to a host
 
-kubectl port-forward udacity-ml-proj-deploy 8000:80
+kubectl port-forward udacity-devops-engineer-capstone-deploy 8000:80
