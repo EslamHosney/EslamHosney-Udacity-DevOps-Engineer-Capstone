@@ -32,4 +32,4 @@ Using Ansible i confiured minikube and Kubectl to run my application inside a Ku
 Finalling I created an testing scenario to make sure the new infra is working fine or delete it using the destroy-environment command from before deleting the old one.
 
 ## Clean up
-Automatically deleting the old infra to save cost 
+Automatically deleting the old infra to save cost
