@@ -286,7 +286,7 @@ jobs:
               echo OldWorkflowID: "${OldWorkflowID}"
               #put the list of stacks here
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
-              echo Stacks: ${STACKS[@]}
+              #echo Stacks: ${STACKS[@]}
               for stack in ${STACKS[@]}; do
                   if [[ $stack == *"${CIRCLE_WORKFLOW_ID:0:7}"* ]]
                     then
@@ -294,8 +294,8 @@ jobs:
                       echo "$stack"
                     else
                       if [[ "$stack" == *"-Udacity-"* ]]; then
-                        echo "Old Stack to be deleted"
-                        echo "$stack"
+                        #echo "Old Stack to be deleted"
+                        #echo "$stack"
                         export OldWorkflowID=${stack##*-}
                         echo $OldWorkflowID
                         #aws cloudformation delete-stack --stack-name "back-end-${OldWorkflowID}"
