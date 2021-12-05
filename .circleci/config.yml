@@ -258,7 +258,7 @@ jobs:
             else
                 return 1
             fi
-      # Here's where you will add some code to rollback on failure  
+      # Here's where you will add some code to rollback on failure delete new env 
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}        
             
@@ -285,16 +285,15 @@ jobs:
                       --no-paginate --output text)
               echo OldWorkflowID: "${OldWorkflowID}"
               #put the list of stacks here
-              export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
-                      --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
-              echo ${STACKS[@]}
+              export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+              echo Stacks: ${STACKS[@]}
               for stack in ${STACKS[@]}; do
                   if [[ $stack == *"${CIRCLE_WORKFLOW_ID:0:7}"* ]]
                     then
                       echo "New Stack Don't delete"
                       echo "$stack"
                     else
-                      if [[ "$stack" == *"-end-"* ]]; then
+                      if [[ "$stack" == *"-Udacity-"* ]]; then
                         echo "Old Stack to be deleted"
                         echo "$stack"
                         export OldWorkflowID=${stack##*-}
@@ -310,7 +309,10 @@ jobs:
 workflows:
   default:
     jobs:
-      - print-workflow-id
+      - print-workflow-id:
+            filters:
+              branches:
+                only: [buff]
       - lint-Python:
             requires: [print-workflow-id]
             filters:
@@ -338,13 +340,24 @@ workflows:
                 only: [main] 
               
       - deploy-infrastructure:
-            #requires: [security-app]
+            requires: [security-app]
             filters:
               branches:
-                only: [buff]  
-                
+                only: [buff]    
       - configure-infrastructure:
             requires: [deploy-infrastructure]
             filters:
               branches:
-                only: [buff]           
+                only: [main]
+
+
+      - smoke-test:
+            requires: [configure-infrastructure]
+            filters:
+              branches:
+                only: [main]   
+      - cleanup:
+            #requires: [smoke-test]
+            filters:
+              branches:
+                only: [main]   

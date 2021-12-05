@@ -20,7 +20,7 @@ The i used pytest to test the flask app I am running
 Used bandit to scan my python code for vulnerabilities
 
 ## Build image
-After all the tests are complete i used CircleCI to build my container image and publish it to docker hub
+After all the tests are complete I used CircleCI to build my container image and publish it to docker hub with the latest tag
 
 ## Build Infra
 Using the cloudformation power I created the required server to run my application in prod
