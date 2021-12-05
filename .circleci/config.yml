@@ -310,7 +310,7 @@ workflows:
       - print-workflow-id:
             filters:
               branches:
-                only: [buff]
+                only: [main]
       - lint-Python:
             requires: [print-workflow-id]
             filters:
@@ -338,7 +338,7 @@ workflows:
                 only: [main] 
               
       - deploy-infrastructure:
-            requires: [security-app]
+            requires: [buff]
             filters:
               branches:
                 only: [buff]    
