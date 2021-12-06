@@ -37,7 +37,8 @@
   - name: "Start Minikube"
     shell: |
         sudo usermod -aG docker $USER && newgrp docker
-        minikube start --driver=docker
+        minikube start
+        #--driver=docker
 
   - name: "Install Kubectl"
     shell: |
@@ -45,8 +46,6 @@
         chmod +x kubectl
         sudo mv kubectl  /usr/local/bin/
         kubectl version --client -o json
-        
-        
         
         
   - name: "Kubernetes Run"
@@ -60,6 +59,6 @@
       
   - name: "Kubernetes Port forwward"
     shell: |
-        kubectl port-forward udacity-devops-engineer-capstone-deploy 8000:80        
+        kubectl port-forward udacity-devops-engineer-capstone-deploy 8000:80 --address='0.0.0.0'
 
 
