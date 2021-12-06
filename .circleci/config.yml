@@ -366,7 +366,7 @@ workflows:
             requires: [configure-infrastructure]
             filters:
               branches:
-                only: [main]   
+                only: [buff]   
       - cleanup:
             requires: [smoke-test]
             filters:

@@ -48,7 +48,7 @@
         #kubectl run udacity-devops-engineer-capstone-deploy --image=eslamhosney/udacity_devops_engineer_capstone --port=80 --labels app=udacity-devops-engineer-capstone-deploy
         kubectl create deployment udacity-devops-engineer-capstone-deploy2 --image=eslamhosney/udacity_devops_engineer_capstone 
         
-  - name: "wait 60 seconds for target connection to become reachable/usable."
+  - name: "wait 20 seconds for target connection to become reachable/usable."
     wait_for_connection: 
         delay: 20
       
