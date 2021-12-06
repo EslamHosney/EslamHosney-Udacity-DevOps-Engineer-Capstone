@@ -29,7 +29,9 @@ Using the cloudformation power I created the required server to run my applicati
 Using Ansible i confiured minikube and Kubectl to run my application inside a Kubernetes cluster
 
 ## Smoke test
-Finalling I created an testing scenario to make sure the new infra is working fine or delete it using the destroy-environment command from before deleting the old one.
+Finalling using curl to the new server services. 
+I created an testing scenario to make sure the new infra is working fine or delete it using the destroy-environment command from before deleting the old one.
+In case it fails it will delete the new infrastructure to save cost
 
 ## Clean up
 Automatically deleting the old infra to save cost

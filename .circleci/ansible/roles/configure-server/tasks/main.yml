@@ -57,4 +57,8 @@
         nohup kubectl port-forward udacity-devops-engineer-capstone-deploy 8000:80 --address='0.0.0.0' --pod-running-timeout=1m0s &
         echo "nohup applied"
         #cat nohup.out
+    register: print_result
 
+  - name: print message
+    debug:
+      msg: "{{ print_result.stdout_lines }}"
