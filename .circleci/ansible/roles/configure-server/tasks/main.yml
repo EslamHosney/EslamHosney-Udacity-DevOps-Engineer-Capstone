@@ -22,6 +22,9 @@
     apt:
       autoremove: yes
 
+  - name: "Install Docker"
+    shell: |
+        sudo apt install docker.io
     
   - name: "Install Minikube"
     shell: |
