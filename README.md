@@ -35,3 +35,5 @@ In case it fails it will delete the new infrastructure to save cost
 
 ## Clean up
 Automatically deleting the old infra to save cost
+
+curl http://localhost:8000
