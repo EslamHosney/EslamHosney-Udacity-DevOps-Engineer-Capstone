@@ -33,6 +33,11 @@
         chmod +x minikube-linux-amd64
         sudo mv minikube-linux-amd64 /usr/local/bin/minikube
         minikube version
+        
+  - name: "Start Minikube"
+    shell: |
+        sudo usermod -aG docker $USER && newgrp docker
+        minikube start --driver=docker
 
   - name: "Install Kubectl"
     shell: |
@@ -40,6 +45,9 @@
         chmod +x kubectl
         sudo mv kubectl  /usr/local/bin/
         kubectl version --client -o json
+        
+        
+        
         
   - name: "Kubernetes Run"
     shell: |
