@@ -387,10 +387,10 @@ workflows:
             requires: [deploy-infrastructure]
             filters:
               branches:
-                only: [buff]
+                only: [main]
 
       - smoke-test:
-            requires: [configure-infrastructure]
+            #requires: [configure-infrastructure]
             filters:
               branches:
                 only: [buff]   
