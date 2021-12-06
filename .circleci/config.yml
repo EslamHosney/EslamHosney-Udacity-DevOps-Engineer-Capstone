@@ -354,7 +354,8 @@ workflows:
             #requires: [build-image]
             filters:
               branches:
-                only: [main]    
+                only: [main]  
+                
       - configure-infrastructure:
             requires: [deploy-infrastructure]
             filters:
@@ -362,7 +363,7 @@ workflows:
                 only: [main]
 
       - smoke-test:
-            #requires: [configure-infrastructure]
+            requires: [configure-infrastructure]
             filters:
               branches:
                 only: [main]   
