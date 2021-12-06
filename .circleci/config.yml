@@ -312,7 +312,7 @@ workflows:
       - print-workflow-id:
             filters:
               branches:
-                only: [main]
+                only: [buff]
       - lint-Python:
             requires: [print-workflow-id]
             filters:
@@ -340,7 +340,7 @@ workflows:
                 only: [main] 
               
       - deploy-infrastructure:
-            requires: [build-image]
+            #requires: [build-image]
             filters:
               branches:
                 only: [main]    
