@@ -389,7 +389,6 @@ workflows:
               branches:
                 only: [buff]
 
-
       - smoke-test:
             requires: [configure-infrastructure]
             filters:
