@@ -34,11 +34,14 @@
         sudo mv minikube-linux-amd64 /usr/local/bin/minikube
         minikube version
         
+  - debug: var=out.stdout_lines
   - name: "Start Minikube"
     shell: |
         sudo usermod -aG docker $USER && newgrp docker
         minikube start
         #--driver=docker
+  
+  - debug: var=out.stdout_lines
 
   - name: "Install Kubectl"
     shell: |
