@@ -54,4 +54,6 @@
         #nohup kubectl port-forward udacity-devops-engineer-capstone-deploy 8000:80 --address='0.0.0.0' &
         nohup kubectl port-forward udacity-devops-engineer-capstone-deploy 8000:80 --address='0.0.0.0' --pod-running-timeout=1m0s &
 
-
+  - name: "wait 60 seconds for target connection to become reachable/usable."
+    wait_for_connection: 
+        delay: 60    
