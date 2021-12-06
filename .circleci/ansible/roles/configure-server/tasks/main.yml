@@ -35,6 +35,7 @@
         sudo groupadd docker
         sudo gpasswd -a $USER docker
         
+        
   - name: "Start Minikube"
     shell: |        
         minikube start --driver=docker
@@ -46,12 +47,11 @@
         docker pull eslamhosney/udacity_devops_engineer_capstone:latest      
         kubectl run udacity-devops-engineer-capstone-deploy --image=eslamhosney/udacity_devops_engineer_capstone --port=80 --labels app=udacity-devops-engineer-capstone-deploy
         
-  - name: "wait 60 seconds for target connection to become reachable/usable."
-    wait_for_connection:
-      delay: 60
+
       
   - name: "Kubernetes Port forwward"
     shell: |
-        nohup kubectl port-forward udacity-devops-engineer-capstone-deploy 8000:80 --address='0.0.0.0' &
+        #nohup kubectl port-forward udacity-devops-engineer-capstone-deploy 8000:80 --address='0.0.0.0' &
+        nohup kubectl port-forward udacity-devops-engineer-capstone-deploy 8000:80 --address='0.0.0.0' --pod-running-timeout=1m0s &
 
 
