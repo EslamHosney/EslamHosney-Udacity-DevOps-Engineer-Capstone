@@ -262,7 +262,7 @@ jobs:
               --output=text)
             export API_URL="http://${BACKEND_IP}:8000"
             echo "${API_URL}"
-            if curl "${API_URL}/api/status" | grep "World"
+            if curl "${API_URL}" | grep "World"
             then
                 return 0
             else
@@ -320,32 +320,32 @@ workflows:
       - print-workflow-id:
             filters:
               branches:
-                only: [buff]
+                only: [dev]
       - lint-Python:
             requires: [print-workflow-id]
             filters:
               branches:
-                only: [main]
+                #only: [main]
       - lint-Dockerfile:
             requires: [print-workflow-id]
             filters:
               branches:
-                only: [main]
+                #only: [main]
       - test-app:
             requires: [lint-Python, lint-Dockerfile]
             filters:
               branches:
-                only: [main]
+                #only: [main]
       - security-app:
             requires: [test-app]
             filters:
               branches:
-                only: [main]  
+                #only: [main]  
       - build-image:
             requires: [security-app]
             filters:
               branches:
-                only: [main] 
+                #only: [main] 
               
       - deploy-infrastructure:
             #requires: [build-image]
