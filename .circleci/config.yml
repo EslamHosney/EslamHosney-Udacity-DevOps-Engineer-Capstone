@@ -205,7 +205,7 @@ jobs:
       # Add ssh keys with fingerprint again
       - add_ssh_keys:
           fingerprints:
-              - "50:eb:03:41:d3:d8:1b:c8:3f:c4:c6:b5:2b:e2:23:8b"
+              - "ef:0b:d2:7e:77:81:a1:a5:41:c2:ca:08:4c:15:11:ae"
       # attach workspace
       - attach_workspace:
             at: ~/project
@@ -343,7 +343,7 @@ workflows:
             requires: [build-image]
             filters:
               branches:
-                only: [buff]    
+                only: [main]    
       - configure-infrastructure:
             requires: [deploy-infrastructure]
             filters:
@@ -355,9 +355,9 @@ workflows:
             requires: [configure-infrastructure]
             filters:
               branches:
-                only: [main]   
+                only: [buff]   
       - cleanup:
             requires: [smoke-test]
             filters:
               branches:
-                only: [main]   
+                only: [buff]   
