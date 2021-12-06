@@ -16,10 +16,7 @@ commands:
           when: on_fail
           command: |
             echo "Destroying environment udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
-            #aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-            aws cloudformation delete-stack --stack-name back-end-${CIRCLE_WORKFLOW_ID:0:7}
-            #aws cloudformation delete-stack --stack-name front-end-${CIRCLE_WORKFLOW_ID:0:7}
-            #exit 1
+            #aws cloudformation delete-stack --stack-name back-end-${CIRCLE_WORKFLOW_ID:0:7}
 
   print_pipeline_id:
     description: "A very simple command to print workflow ID"
