@@ -223,7 +223,7 @@ jobs:
             cat inventory.txt
       - run:
           name: Configure server with ansible
-          no_output_timeout: 30m
+          #no_output_timeout: 3m
           command: |
             echo "Start Ansible"
             cd .circleci/ansible
@@ -231,6 +231,45 @@ jobs:
             cat inventory.txt
             #cat configure-server.yml
       # Here's where you will add some code to rollback on failure  
+      
+  configure-Kubernetes:
+    docker:
+      # Docker image here that supports Ansible
+      - image: python:3.7-alpine3.11
+    steps:
+      # Checkout code from git
+      - checkout
+      # Add ssh keys with fingerprint again
+      - add_ssh_keys:
+          fingerprints:
+              - "ef:0b:d2:7e:77:81:a1:a5:41:c2:ca:08:4c:15:11:ae"
+      # attach workspace
+      - attach_workspace:
+            at: ~/project
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update tar gzip ansible nodejs npm curl
+            pip install awscli
+      - run:
+          name: Set up inventory file
+          command: |
+            cd .circleci/ansible
+            URLS=$(curl -H "token: a6799e5b-dcb5-45f6-b3f3-6cb9db85f3ac" --request GET https://api.memstash.io/values/backendip)
+            echo "$URLS" >> inventory.txt
+            cat inventory.txt
+            ssh ubuntu@$URLS
+      # Here's where you will add some code to rollback on failure  
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
   smoke-test:
     docker:
@@ -343,9 +382,9 @@ workflows:
             #requires: [build-image]
             filters:
               branches:
-                only: [main]    
+                only: [buff]    
       - configure-infrastructure:
-            requires: [deploy-infrastructure]
+            #requires: [deploy-infrastructure]
             filters:
               branches:
                 only: [main]
